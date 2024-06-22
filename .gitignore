@@ -1,0 +1,10 @@
+# dependencies
+node_modules
+
+# Build
+src
+
+*.env
+
+.DS_Store
+*.lock

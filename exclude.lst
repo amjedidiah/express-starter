@@ -1,0 +1,7 @@
+.env
+.DS_Store
+.gitignore
+exclude.lst
+.git/*
+.husky/*
+node_modules/*
