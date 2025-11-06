@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "NodeNext" /* Specify what module code is generated. */,
-    "rootDir": "lib" /* Specify how TypeScript looks up a file from a given module specifier. */,
-    "baseUrl": "." /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */,
-    "outDir": "src" /* Allow 'import x from y' when a module doesn't have a default export. */,
-    "esModuleInterop": true /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */,
+    "module": "NodeNext",
+    "rootDir": "lib",
+    "baseUrl": ".",
+    "outDir": "src",
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true /* Skip type checking .d.ts files that are included with TypeScript. */,
+    "strict": true,
     "skipLibCheck": true,
-    "isolatedModules": true /* Skip type checking all .d.ts files. */
+    "isolatedModules": true
   },
   "include": ["lib"],
   "exclude": ["src"]

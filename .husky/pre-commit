@@ -1,1 +1,1 @@
-yarn build
+bun run build

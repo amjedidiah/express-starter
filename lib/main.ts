@@ -2,13 +2,13 @@ import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import csrfProtection from 'csurf';
+import csurf from 'csurf';
 import expressWinston from 'express-winston';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import 'dotenv/config';
-import logger from './config/logger';
 import routes from './routes';
-import { handleResponseError } from './config/error';
+import logger from './config/logger';
+import { DEFAULT_ERROR_STATUS_CODE, HttpError } from './config/error';
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 8080;
@@ -31,23 +31,34 @@ app.use(
   })
 );
 
-// CSRF Protection
+// CSRF Protection (cookieParser must come before csurf)
 app.use(cookieParser());
-app.use(csrfProtection({ cookie: true }));
+// @ts-expect-error - csurf types may not perfectly align with express types
+app.use(csurf({ cookie: true }));
 
 app.use(routes);
 
 // Error handling middleware
-app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
-  handleResponseError(res, error);
-  next();
+app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  const code =
+    error instanceof HttpError ? error.status : DEFAULT_ERROR_STATUS_CODE;
+
+  logger.error(error);
+
+  res.status(code).json({ data: null, message: (error as Error).message });
 });
 
-mongoose
-  .connect(process.env.MONGODB_URI as string)
-  .then(() =>
-    app.listen(port, host, () => {
-      logger.info(`[ ready ] http://${host}:${port}`);
-    })
-  )
-  .catch(logger.error);
+// Optional: MongoDB connection (uncomment to use)
+// mongoose
+//   .connect(process.env.MONGODB_URI as string)
+//   .then(() =>
+//     app.listen(port, host, () => {
+//       logger.info(`[ ready ] http://${host}:${port}`);
+//     })
+//   )
+//   .catch(logger.error);
+
+// Start server without MongoDB
+app.listen(port, host, () => {
+  logger.info(`[ ready ] http://${host}:${port}`);
+});
