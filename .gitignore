@@ -5,6 +5,10 @@ node_modules
 src
 
 *.env
+!.env.test
 
 .DS_Store
 *.log
+
+# Test coverage
+coverage

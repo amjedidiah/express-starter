@@ -3,13 +3,15 @@ import { asyncHandler } from '../config/error';
 
 const router = Router();
 
-const { npm_package_name, npm_package_version } = process.env;
 router.get('/', (_req, res) =>
-  res.send({ name: npm_package_name, version: npm_package_version })
+  res.send({
+    name: process.env.npm_package_name ?? 'api',
+    version: process.env.npm_package_version ?? '0.0.0',
+  })
 );
 
 // CSRF Protection route
-router.get(process.env.CSRF_ROUTE as string, (req, res) =>
+router.get(process.env.CSRF_ROUTE ?? '/csrf-token', (req, res) =>
   res.send({
     data: { csrfToken: req.csrfToken() },
     message: 'CSRF Token fetched successfully',
