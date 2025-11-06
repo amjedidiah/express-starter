@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../config/error';
+import { generateCsrfToken } from '../config/csrf';
 
 const router = Router();
 
@@ -10,13 +11,14 @@ router.get('/', (_req, res) =>
   })
 );
 
-// CSRF Protection route
-router.get(process.env.CSRF_ROUTE ?? '/csrf-token', (req, res) =>
+// CSRF Token route
+router.get(process.env.CSRF_ROUTE ?? '/csrf-token', (req, res) => {
+  const csrfToken = generateCsrfToken(req, res);
   res.send({
-    data: { csrfToken: req.csrfToken() },
+    data: { csrfToken },
     message: 'CSRF Token fetched successfully',
-  })
-);
+  });
+});
 
 // Example async route with error handling
 // router.get('/async-example', asyncHandler(async (req, res) => {

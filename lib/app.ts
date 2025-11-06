@@ -2,12 +2,12 @@ import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import csurf from 'csurf';
 import expressWinston from 'express-winston';
 import 'dotenv/config';
 import routes from './routes';
 import logger from './config/logger';
 import { DEFAULT_ERROR_STATUS_CODE, HttpError } from './config/error';
+import { doubleCsrfProtection } from './config/csrf';
 
 const app = express();
 
@@ -27,10 +27,9 @@ app.use(
   })
 );
 
-// CSRF Protection (cookieParser must come before csurf)
+// CSRF Protection (cookieParser must come before csrf)
 app.use(cookieParser());
-// @ts-expect-error - csurf types may not perfectly align with express types
-app.use(csurf({ cookie: true }));
+app.use(doubleCsrfProtection);
 
 app.use(routes);
 
@@ -45,4 +44,3 @@ app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 export default app;
-

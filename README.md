@@ -74,7 +74,8 @@ Copy `.env.example` or set:
 
 - `HOST` - Server host (default: localhost)
 - `PORT` - Server port (default: 8080)
-- `CSRF_ROUTE` - CSRF token endpoint
+- `CSRF_ROUTE` - CSRF token endpoint (default: /csrf-token)
+- `CSRF_SECRET` - Secret for CSRF token generation (change in production)
 - `MONGODB_URI` - Uncomment in `main.ts` if needed
 
 ## License
