@@ -1,0 +1,8 @@
+localhost {
+  # Caddy automatically handles HTTPS and enables H1, H2, and H3
+  reverse_proxy localhost:8080 {
+    # Forward the client's protocol to Express
+    header_up X-Client-Protocol {http.request.proto}
+  }
+}
+

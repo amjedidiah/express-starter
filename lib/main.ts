@@ -19,4 +19,7 @@ const port = process.env.PORT ? Number(process.env.PORT) : 8080;
 // Start server without MongoDB
 app.listen(port, host, () => {
   logger.info(`[ ready ] http://${host}:${port}`);
+  logger.info(
+    'Caddy will proxy this on https://localhost with H1/H2/H3 support'
+  );
 });

@@ -2,6 +2,23 @@
   "name": "api",
   "version": "0.0.0",
   "license": "MIT",
+  "description": "Production-ready Express.js template with TypeScript, security middleware, and error handling.",
+  "author": "Jedidiah Amaraegbu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amjedidiah/express-starter.git"
+  },
+  "homepage": "https://github.com/amjedidiah/express-starter",
+  "bugs": {
+    "url": "https://github.com/amjedidiah/express-starter/issues"
+  },
+  "keywords": [
+    "express",
+    "typescript",
+    "security",
+    "middleware",
+    "error handling"
+  ],
   "main": "src/main.js",
   "scripts": {
     "dev": "bun --watch lib/main.ts",

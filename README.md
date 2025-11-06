@@ -2,6 +2,11 @@
 
 Production-ready Express.js template with TypeScript, security middleware, and error handling.
 
+## Requirements
+
+- Node.js 24.10.0 or higher (see `.nvmrc`)
+- Bun
+
 ## Quick Start
 
 ```bash
@@ -28,6 +33,71 @@ bun test --watch  # Watch mode
 bun run build     # Compile TypeScript
 bun start         # Production server
 ```
+
+## Caddy Proxy (Optional)
+
+Add automatic HTTPS and HTTP/2/HTTP/3 support using Caddy as a reverse proxy.
+
+### Architecture
+
+```txt
+Client (H3/H2/H1) → Caddy (HTTPS :443) → Express (HTTP :8080)
+```
+
+### Setup
+
+1. Install Caddy:
+
+    ```bash
+    # macOS
+    brew install caddy
+
+    # Linux
+    sudo apt install caddy
+    ```
+
+2. Run both servers (separate terminals):
+
+    ```bash
+    bun dev          # Terminal 1
+    caddy run        # Terminal 2
+    ```
+
+3. Access at `https://localhost` (Caddy auto-generates local SSL cert)
+
+    **Verify protocols:**
+
+    1. Check the JSON response at `https://localhost`:
+
+        ```json
+        {
+          "protocols": {
+            "clientToCaddy": "HTTP/2.0",
+            "caddyToExpress": "1.1"
+          }
+        }
+        ```
+
+    2. View in DevTools (Optional):
+        - Chrome/Firefox: Network tab → Enable "Protocol" column → Should show `h2` or `h3`
+
+    3. Verify HTTP/3 support:
+
+        ```bash
+        curl -v https://localhost 2>&1 | grep -i "alt-svc"
+        # Should show: alt-svc: h3=":443"; ma=2592000
+        ```
+
+### Troubleshooting
+
+If Caddy doesn't exit properly when stopping the terminal, find and kill the process:
+
+```bash
+lsof -i :443        # Find Caddy PID
+kill <PID>          # Replace <PID> with the actual process ID
+```
+
+For production, update `Caddyfile` with your domain - Caddy handles Let's Encrypt automatically.
 
 ## Usage
 

@@ -4,10 +4,16 @@ import { generateCsrfToken } from '../config/csrf';
 
 const router = Router();
 
-router.get('/', (_req, res) =>
+router.get('/', (req, res) =>
   res.send({
     name: process.env.npm_package_name ?? 'api',
     version: process.env.npm_package_version ?? '0.0.0',
+    message: 'Hello! Caddy is handling HTTP/1.1, HTTP/2, and HTTP/3 for you.',
+    timestamp: new Date().toISOString(),
+    protocols: {
+      clientToCaddy: req.headers['x-client-protocol'] ?? 'unknown',
+      caddyToExpress: req.httpVersion,
+    },
   })
 );
 
