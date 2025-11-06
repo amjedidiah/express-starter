@@ -44,6 +44,12 @@ Add automatic HTTPS and HTTP/2/HTTP/3 support using Caddy as a reverse proxy.
 Client (H3/H2/H1) → Caddy (HTTPS :443) → Express (HTTP :8080)
 ```
 
+Caddy automatically enables all three protocols (HTTP/1.1, HTTP/2, and HTTP/3) and negotiates the best one based on client and network support. This means:
+
+- Modern browsers get HTTP/3 (QUIC) for faster performance
+- Corporate networks blocking UDP automatically fall back to HTTP/2
+- Legacy clients use HTTP/1.1 without any configuration needed
+
 ### Setup
 
 1. Install Caddy:
